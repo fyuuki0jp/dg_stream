@@ -1,7 +1,7 @@
 # dg_stream
 drogon + openmaxil used h264 streamer
 
-## used repo
+## this repository is using those repository
 - https://github.com/dridri/OpenMaxIL-cpp
 - https://github.com/mbebenita/Broadway
 - https://github.com/drogonframework/drogon
