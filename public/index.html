@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>drogon h264ストリーム</title>
+  <script type="text/javascript" src="broadway/Decoder.js"></script>
+  <script type="text/javascript" src="broadway/YUVCanvas.js"></script>
+  <script type="text/javascript" src="broadway/Player.js"></script>
+</head>
+<body>
+    <h1>ストリーミングテスト</h1>
+    <div id="viewer"></canvas>
+    <script type='text/javascript'>
+        var p = new Player({
+            useWorker:true,
+            workerFile:'broadway/Decoder.js',
+            webGL:true,
+            size:{width:720,height:480}
+        });
+        document.getElementById('viewer').appendChild(p.canvas);
+        var stream = new WebSocket('ws://192.168.3.114:80/stream');
+        stream.onmessage = function(e)
+        {
+            e.data.arrayBuffer().then(buffer =>{p.decode(new Uint8Array(buffer))});
+        }
+        var control = new WebSocket('ws://192.168.3.114:80/robot');
+        control.onmessage = function(e)
+        {
+            console.log(e.data)
+        }
+        control.onopen = function(e){
+            control.send('test connection');
+        }
+    </script>
+</body>
+</html>
